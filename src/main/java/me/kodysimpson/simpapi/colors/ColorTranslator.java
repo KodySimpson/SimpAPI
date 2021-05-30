@@ -3,16 +3,19 @@ package me.kodysimpson.simpapi.colors;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.jetbrains.annotations.NotNull;
 
 public class ColorTranslator {
 
+    @NotNull
     static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
 
     /**
      * @param text The string of text to apply color/effects to
      * @return Returns a string of text with color/effects applied
      */
-    public static String translateColorCodes(String text){
+    @NotNull
+    public static String translateColorCodes(@NotNull String text){
 
         String[] texts = text.split(String.format(WITH_DELIMITER, "&"));
 
@@ -35,7 +38,8 @@ public class ColorTranslator {
         return finalText.toString();
     }
 
-    public static TextComponent translateColorCodesToTextComponent(String text){
+    @NotNull
+    public static TextComponent translateColorCodesToTextComponent(@NotNull String text){
 
         String[] texts = text.split(String.format(WITH_DELIMITER, "&"));
 

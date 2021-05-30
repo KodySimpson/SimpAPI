@@ -3,6 +3,7 @@ package me.kodysimpson.simpapi.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,23 +14,33 @@ import java.util.List;
  */
 class CoreCommand extends Command {
 
-    private ArrayList<SubCommand> subcommands;
-    private CommandList commandList;
+    @NotNull
+    private final ArrayList<SubCommand> subcommands;
+    @NotNull
+    private final CommandList commandList;
 
-    public CoreCommand(String name, String description, String usageMessage, CommandList commandList, List<String> aliases, ArrayList<SubCommand> subCommands){
+    public CoreCommand(@NotNull String name,
+                       @NotNull String description,
+                       @NotNull String usageMessage,
+                       @NotNull CommandList commandList,
+                       @NotNull List<String> aliases,
+                       @NotNull ArrayList<SubCommand> subCommands){
         super(name, description, usageMessage, aliases);
         //Get the subcommands so we can access them in the command manager class(here)
         this.subcommands = subCommands;
         this.commandList = commandList;
     }
 
+    @NotNull
     public ArrayList<SubCommand> getSubCommands(){
         return subcommands;
     }
 
     // /weener
     @Override
-    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+    public boolean execute(@NotNull CommandSender sender,
+                           @NotNull String commandLabel,
+                           @NotNull String[] args) {
 
         if (sender instanceof Player){
             Player p = (Player) sender;
@@ -41,15 +52,7 @@ class CoreCommand extends Command {
                     }
                 }
             }else {
-                if (commandList == null){
-                    p.sendMessage("--------------------------------");
-                    for (SubCommand subcommand : subcommands) {
-                        p.sendMessage(subcommand.getSyntax() + " - " + subcommand.getDescription());
-                    }
-                    p.sendMessage("--------------------------------");
-                }else{
-                    commandList.displayCommandList(p, subcommands);
-                }
+                commandList.displayCommandList(p, subcommands);
             }
 
         }
@@ -58,7 +61,8 @@ class CoreCommand extends Command {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+    @NotNull
+    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) throws IllegalArgumentException {
         if (args.length == 1){ //prank <subcommand> <args>
             ArrayList<String> subcommandsArguments = new ArrayList<>();
 

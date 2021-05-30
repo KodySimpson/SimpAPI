@@ -2,6 +2,7 @@ package me.kodysimpson.simpapi.command;
 
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -23,24 +24,25 @@ public class CommandManager {
      * @throws NoSuchFieldException
      * @throws IllegalAccessException
      */
-    public static void createCoreCommand(JavaPlugin plugin, String commandName,
-                                         String commandDescription,
-                                         String commandUsage,
-                                         CommandList commandList,
-                                         List<String> aliases,
-                                         Class<? extends SubCommand>... subcommands) throws NoSuchFieldException, IllegalAccessException {
+    @SafeVarargs
+    public static void createCoreCommand(@NotNull JavaPlugin plugin, @NotNull String commandName,
+                                         @NotNull String commandDescription,
+                                         @NotNull String commandUsage,
+                                         @NotNull CommandList commandList,
+                                         @NotNull List<String> aliases,
+                                         @NotNull Class<? extends SubCommand>... subcommands) throws NoSuchFieldException, IllegalAccessException {
 
         ArrayList<SubCommand> commands = new ArrayList<>();
 
         Arrays.stream(subcommands).map(subcommand -> {
             try{
-                Constructor constructor = subcommand.getConstructor();
+                Constructor<? extends SubCommand> constructor = subcommand.getConstructor();
                 return constructor.newInstance();
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
             return null;
-        }).forEach(o -> commands.add((SubCommand) o));
+        }).forEach(commands::add);
 
         //THANK YOU OZZYMAR <3 YOUR THE HOMIE
         Field commandField = plugin.getServer().getClass().getDeclaredField("commandMap");
@@ -59,11 +61,12 @@ public class CommandManager {
      * @throws NoSuchFieldException
      * @throws IllegalAccessException
      */
-    public static void createCoreCommand(JavaPlugin plugin, String commandName,
-                                         String commandDescription,
-                                         String commandUsage,
-                                         CommandList commandList,
-                                         Class<? extends SubCommand>... subcommands) throws NoSuchFieldException, IllegalAccessException {
+    @SafeVarargs
+    public static void createCoreCommand(@NotNull JavaPlugin plugin, @NotNull String commandName,
+                                         @NotNull String commandDescription,
+                                         @NotNull String commandUsage,
+                                         @NotNull CommandList commandList,
+                                         @NotNull Class<? extends SubCommand>... subcommands) throws NoSuchFieldException, IllegalAccessException {
         createCoreCommand(plugin, commandName, commandDescription, commandUsage, commandList, Collections.singletonList(""), subcommands);
     }
 

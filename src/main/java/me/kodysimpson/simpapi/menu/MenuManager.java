@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 public class MenuManager {
 
     //each player will be assigned their own PlayerMenuUtility object
+    @NotNull
     private static HashMap<Player, AbstractPlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     private static Class<? extends AbstractPlayerMenuUtility> pmuClass;
     private static boolean isSetup = false;
@@ -96,6 +98,7 @@ public class MenuManager {
 
     }
 
+    @NotNull
     public static AbstractPlayerMenuUtility getPlayerMenuUtility(Player p) throws MenuManagerException, MenuManagerNotSetupException {
 
         if (!isSetup){
@@ -123,6 +126,7 @@ public class MenuManager {
     }
 
 
+    @NotNull
     public static <T> T getPlayerMenuUtility(Player p, Class<T> t) throws MenuManagerException {
 
         AbstractPlayerMenuUtility playerMenuUtility;

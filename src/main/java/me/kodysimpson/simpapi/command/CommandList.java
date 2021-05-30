@@ -1,6 +1,7 @@
 package me.kodysimpson.simpapi.command;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ public interface CommandList {
      * @param player The player to list the commands to
      * @param subCommandList A list of all the subcommands you can display
      */
-    void displayCommandList(Player player, List<SubCommand> subCommandList);
+    void displayCommandList(@NotNull Player player, @NotNull List<SubCommand> subCommandList);
 
 }

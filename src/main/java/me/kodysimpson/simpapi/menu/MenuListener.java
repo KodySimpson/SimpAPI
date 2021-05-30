@@ -7,12 +7,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryHolder;
+import org.jetbrains.annotations.NotNull;
 
 
 public class MenuListener implements Listener {
 
     @EventHandler
-    public void onMenuClick(InventoryClickEvent e){
+    public void onMenuClick(@NotNull InventoryClickEvent e){
 
         InventoryHolder holder = e.getInventory().getHolder();
         //If the inventoryholder of the inventory clicked on

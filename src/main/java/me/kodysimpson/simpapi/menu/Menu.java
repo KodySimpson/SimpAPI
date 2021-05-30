@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -18,18 +19,21 @@ import java.util.Arrays;
 public abstract class Menu implements InventoryHolder {
 
     //Protected values that can be accessed in the menus
+    @NotNull
     protected AbstractPlayerMenuUtility pmu;
     protected Inventory inventory;
+    @NotNull
     protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ");
 
     //Constructor for Menu. Pass in a PlayerMenuUtility so that
     // we have information on who's menu this is and
     // what info is to be transferred
-    public Menu(AbstractPlayerMenuUtility pmu) {
+    public Menu(@NotNull AbstractPlayerMenuUtility pmu) {
         this.pmu = pmu;
     }
 
     //let each menu decide their name
+    @NotNull
     public abstract String getMenuName();
 
     //let each menu decide their slot amount
@@ -38,7 +42,7 @@ public abstract class Menu implements InventoryHolder {
     public abstract boolean cancelAllClicks();
 
     //let each menu decide how the items in the menu will be handled when clicked
-    public abstract void handleMenu(InventoryClickEvent e) throws MenuManagerNotSetupException, MenuManagerException;
+    public abstract void handleMenu(@NotNull InventoryClickEvent e) throws MenuManagerNotSetupException, MenuManagerException;
 
     //let each menu decide what items are to be placed in the inventory menu
     public abstract void setMenuItems();
@@ -59,6 +63,7 @@ public abstract class Menu implements InventoryHolder {
 
     //Overridden method from the InventoryHolder interface
     @Override
+    @NotNull
     public Inventory getInventory() {
         return inventory;
     }
@@ -72,7 +77,8 @@ public abstract class Menu implements InventoryHolder {
         }
     }
 
-    public ItemStack makeItem(Material material, String displayName, String... lore) {
+    @NotNull
+    public ItemStack makeItem(@NotNull Material material, @NotNull String displayName, String... lore) {
 
         ItemStack item = new ItemStack(material);
         ItemMeta itemMeta = item.getItemMeta();
@@ -85,7 +91,8 @@ public abstract class Menu implements InventoryHolder {
         return item;
     }
 
-    public <T> T PMUCaster(AbstractPlayerMenuUtility abstractPlayerMenuUtility, Class<T> t) {
+    @NotNull
+    public <T> T PMUCaster(@NotNull AbstractPlayerMenuUtility abstractPlayerMenuUtility, @NotNull Class<T> t) {
         return t.cast(abstractPlayerMenuUtility);
     }
 

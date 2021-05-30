@@ -8,15 +8,18 @@ Companion class to all menus. This is needed to pass information across the enti
  */
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractPlayerMenuUtility {
 
-    private Player owner;
+    @NotNull
+    private final Player owner;
 
-    public AbstractPlayerMenuUtility(Player p) {
+    public AbstractPlayerMenuUtility(@NotNull Player p) {
         this.owner = p;
     }
 
+    @NotNull
     public Player getOwner() {
         return owner;
     }
