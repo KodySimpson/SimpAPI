@@ -215,3 +215,120 @@ These enumerators can be passed into the PMC instead of a String key, they will 
 
 ## Command Manager
 *Video*: https://youtu.be/NFYg9Tmk-vo
+
+## MySQL
+**Connecting using MySQLConnector**
+```JAVA
+public class MySQLExample {
+    
+    private MySQLConnector connector;
+
+    public void connectToDatabase() {
+        String host = "bla";
+        String port = "bla";
+        String database_name = "bla";
+        String username = "bla";
+        String password = "bla";
+        connector = new MySQLConnector(host, port, database_name, username, password);
+
+        try {
+            connector.connect();
+            System.out.println("Connected!");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not connect to MySQL Database");
+        }
+    }
+    
+    // This method represents your onDisable method
+    // in your main class
+    @Override
+    public void onDisable() {
+        connector.disconnect();
+    }
+}
+```
+
+**Creating a MySQL Table using the MySQLTable interface**
+```JAVA
+public class MySQLExample implements MySQLTable {
+
+    private Connection connection;
+    public MySQLExample() {
+        connection = plugin.getMySQL().getConnection();
+    }
+
+    @Override
+    public String getTable() {
+        return "player_data"; // Name of the table
+    }
+
+    @Override
+    public void createTable() {
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS "
+                    + getTable() + " (UUID VARCHAR(100), NICKNAME VARCHAR(100), PRIMARY KEY (UUID) )");
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // etc...
+}
+```
+
+## ItemBuilder
+**Example of using ItemBuilder**
+```JAVA
+    public void item(Player player) {
+        ItemStack item = new ItemBuilder(Material.DIAMOND_PICKAXE)
+                .setName("&c&lSuper &b&lPickaxe")
+                .addLoreLine("&7This pickaxe is forged from")
+                .addLoreLine("&7the deep depths of hell...")
+                .build();
+        
+        player.getInventory().addItem(item);
+    }
+```  
+
+## Text Components
+**Example of using TextComponents***
+```JAVA
+    public void send(Player player) {
+        
+        new TextComponentBuilder("&6&lCLICK TO PAY RESPECTS]")
+                .setClickEvent(ClickEvent.Action.RUN_COMMAND, "/f")
+                .setHoverText("&aClick to pay respects")
+                .send(player);
+        
+    }
+```
+
+## Config Utils
+**Example of using ConfigUtils**
+```JAVA
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+
+        FileConfiguration configuration = new ConfigUtils(MainPlugin.getInstance(), "messages").getConfig();
+        String welcome = configuration.getString("welcome-message");
+        event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', welcome));
+
+    }
+```
+
+## Util Player
+**Example of using UtilPlayer**
+```JAVA
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        UtilPlayer.reset(event.getPlayer());
+        // Once the player joins the server
+        // clear their inventory
+        // and teleport them to spawn
+        event.getPlayer().teleport(Spawn.getLocation());
+    }
+```
